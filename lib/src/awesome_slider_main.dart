@@ -13,7 +13,7 @@ class AwesomeSlider extends StatefulWidget {
     this.sliderWidth,
     this.thumbSize,
     this.thumbColor = Colors.grey,
-    this.roundedRectangleThumbRadius = 10.0,
+    this.roundedRectangleThumbRadius = 0.0,
     this.inactiveLineColor = Colors.blue,
     this.inactiveLineStroke,
     this.activeLineColor = Colors.blue,
