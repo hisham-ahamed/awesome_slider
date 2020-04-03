@@ -209,45 +209,48 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
         _onDragStart(startDetails);
         _value();
       },
-      child: Stack(
-        children: <Widget>[
-          Container(
-            height: _sliderHeight(),
-            width: _sliderWidth(),
-            child: CustomPaint(
-              painter: AwesomeSliderPaint(
-                sliderLength: _sliderWidth(),
-                thumbSize: _sliderHeight(),
-                thumbColor: widget.thumbColor,
-                value: _incrementValueForThumb(),
-                min: widget.min,
-                max: widget.max,
-                inactiveLineColor: widget.inactiveLineColor,
-                inactiveLineStroke: _strokeOfInactiveLine(),
-                activeLineColor: widget.activeLineColor,
-                activeLineStroke: _strokeOfActiveLine(),
-                currentTouchPosition: sliderXCoordinatePositionNow,
-                roundedThumbRadius: widget.roundedRectangleThumbRadius,
-                topLeftShadowColor: widget.topLeftShadowColor,
-                bottomRightShadowColor: widget.bottomRightShadowColor,
-                topLeftShadowBlurFactor: _topLeftShadowBlur(),
-                bottomRightShadowBlurFactor: _bottomRightShadowBlur(),
-                bottomRightShadow: widget.bottomRightShadow,
-                topLeftShadow: widget.topLeftShadow,
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        child: Stack(
+          children: <Widget>[
+            Container(
+              height: _sliderHeight(),
+              width: _sliderWidth(),
+              child: CustomPaint(
+                painter: AwesomeSliderPaint(
+                  sliderLength: _sliderWidth(),
+                  thumbSize: _sliderHeight(),
+                  thumbColor: widget.thumbColor,
+                  value: _incrementValueForThumb(),
+                  min: widget.min,
+                  max: widget.max,
+                  inactiveLineColor: widget.inactiveLineColor,
+                  inactiveLineStroke: _strokeOfInactiveLine(),
+                  activeLineColor: widget.activeLineColor,
+                  activeLineStroke: _strokeOfActiveLine(),
+                  currentTouchPosition: sliderXCoordinatePositionNow,
+                  roundedThumbRadius: widget.roundedRectangleThumbRadius,
+                  topLeftShadowColor: widget.topLeftShadowColor,
+                  bottomRightShadowColor: widget.bottomRightShadowColor,
+                  topLeftShadowBlurFactor: _topLeftShadowBlur(),
+                  bottomRightShadowBlurFactor: _bottomRightShadowBlur(),
+                  bottomRightShadow: widget.bottomRightShadow,
+                  topLeftShadow: widget.topLeftShadow,
+                ),
               ),
             ),
-          ),
-          Positioned(
-            height: _sliderHeight(),
-            width: _sliderHeight(),
-            left: _sliderChildPosition(),
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: widget.child,
+            Positioned(
+              height: _sliderHeight(),
+              width: _sliderHeight(),
+              left: _sliderChildPosition(),
+              child: Container(
+                height: double.infinity,
+                width: double.infinity,
+                child: widget.child,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

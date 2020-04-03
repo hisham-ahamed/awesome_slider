@@ -60,7 +60,7 @@ class AwesomeSliderPaint extends CustomPainter {
       ..color = inactiveLineColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = inactiveLineStroke;
-    inactiveLinePath.moveTo(0, thumbSize / 2);
+    inactiveLinePath.moveTo(0.0, thumbSize / 2);
     inactiveLinePath.lineTo(sliderLength, thumbSize / 2);
     canvas.drawPath(inactiveLinePath, inactiveLinePaint);
 
@@ -71,7 +71,7 @@ class AwesomeSliderPaint extends CustomPainter {
       ..color = activeLineColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = activeLineStroke;
-    activeLinePath.moveTo(0, thumbSize / 2);
+    activeLinePath.moveTo(0.0, thumbSize / 2);
     activeLinePath.lineTo(currentTouchPosition, thumbSize / 2);
     canvas.drawPath(activeLinePath, activeLinePaint);
 
@@ -81,6 +81,7 @@ class AwesomeSliderPaint extends CustomPainter {
     Paint roundedRectangleTopLeftShadowPaint = Paint()
       ..color = topLeftShadowColor
       ..maskFilter = topLeftShadowBlurFactor;
+
     roundedRectangleTopLeftShadow.addRRect(RRect.fromLTRBR(
         0.0 - roundedRectangleTopLeftShadowShift + _increment(),
         0.0 - roundedRectangleTopLeftShadowShift,
@@ -111,6 +112,7 @@ class AwesomeSliderPaint extends CustomPainter {
 
     Path roundedRectangle = Path();
     Paint roundedRectanglePaint = Paint()..color = thumbColor;
+
     roundedRectangle.addRRect(RRect.fromLTRBR(
         0.0 + _increment(),
         0.0,
