@@ -10,7 +10,7 @@ A highly customisable Rounded Rectangular thumb shaped slider for flutter projec
 - [Installation](#installation)
 - [Basic Usage](#basic-usage)
 - [Example Demo](#example-demo)
-- [AwesomeSlider parameters](#awesomeslider-parameters)
+- [Awesome Slider parameters](#awesome-slider-parameters)
 
 
 ### Installation
