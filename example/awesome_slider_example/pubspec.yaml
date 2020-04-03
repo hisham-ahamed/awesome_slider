@@ -20,7 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  awesomeslider:
+  awesome_slider:
     path: /media/hisham/DATA/(C)Files/Workspaces/Flutter/awesome_slider/
 
   # The following adds the Cupertino Icons font to your application.

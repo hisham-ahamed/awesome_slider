@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:awesomeslider/awesomeslider.dart';
+import 'package:awesome_slider/awesome_slider.dart';
 
 void main() => runApp(MainApp());
 
