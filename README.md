@@ -1,5 +1,7 @@
 # Awesome - Slider
 
+MIGRATED TO NULL SAFETY
+
 A highly customisable Rounded Rectangular thumb shaped slider for flutter projects which has shadow and child property.
 
 ![Example 01](screenfetch/squareThumb.gif) ![Example 02](screenfetch/rRThumb.gif)
