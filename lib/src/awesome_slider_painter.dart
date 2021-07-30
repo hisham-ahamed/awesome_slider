@@ -4,24 +4,24 @@ import 'package:flutter/material.dart';
 
 class AwesomeSliderPaint extends CustomPainter {
   AwesomeSliderPaint({
-    @required this.sliderLength,
-    @required this.thumbSize,
-    @required this.thumbColor,
-    @required this.value,
-    @required this.min,
-    @required this.max,
-    @required this.roundedThumbRadius,
-    @required this.inactiveLineColor,
-    @required this.inactiveLineStroke,
-    @required this.currentTouchPosition,
-    @required this.activeLineColor,
-    @required this.activeLineStroke,
-    @required this.topLeftShadowColor,
-    @required this.bottomRightShadowColor,
-    @required this.topLeftShadowBlurFactor,
-    @required this.bottomRightShadowBlurFactor,
-    @required this.topLeftShadow,
-    @required this.bottomRightShadow,
+    required this.sliderLength,
+    required this.thumbSize,
+    required this.thumbColor,
+    required this.value,
+    required this.min,
+    required this.max,
+    required this.roundedThumbRadius,
+    required this.inactiveLineColor,
+    required this.inactiveLineStroke,
+    required this.currentTouchPosition,
+    required this.activeLineColor,
+    required this.activeLineStroke,
+    required this.topLeftShadowColor,
+    required this.bottomRightShadowColor,
+    required this.topLeftShadowBlurFactor,
+    required this.bottomRightShadowBlurFactor,
+    required this.topLeftShadow,
+    required this.bottomRightShadow,
   });
   final double sliderLength;
   final double thumbSize;
@@ -31,14 +31,14 @@ class AwesomeSliderPaint extends CustomPainter {
   final double max;
   final double roundedThumbRadius;
   final Color inactiveLineColor;
-  final double inactiveLineStroke;
+  final double? inactiveLineStroke;
   final double currentTouchPosition;
   final Color activeLineColor;
-  final double activeLineStroke;
+  final double? activeLineStroke;
   final Color topLeftShadowColor;
   final Color bottomRightShadowColor;
-  final MaskFilter bottomRightShadowBlurFactor;
-  final MaskFilter topLeftShadowBlurFactor;
+  final MaskFilter? bottomRightShadowBlurFactor;
+  final MaskFilter? topLeftShadowBlurFactor;
   final bool topLeftShadow;
   final bool bottomRightShadow;
 
@@ -59,7 +59,7 @@ class AwesomeSliderPaint extends CustomPainter {
     Paint inactiveLinePaint = Paint()
       ..color = inactiveLineColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = inactiveLineStroke;
+      ..strokeWidth = inactiveLineStroke!;
     inactiveLinePath.moveTo(0.0, thumbSize / 2);
     inactiveLinePath.lineTo(sliderLength, thumbSize / 2);
     canvas.drawPath(inactiveLinePath, inactiveLinePaint);
@@ -70,7 +70,7 @@ class AwesomeSliderPaint extends CustomPainter {
     Paint activeLinePaint = Paint()
       ..color = activeLineColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = activeLineStroke;
+      ..strokeWidth = activeLineStroke!;
     activeLinePath.moveTo(0.0, thumbSize / 2);
     activeLinePath.lineTo(currentTouchPosition, thumbSize / 2);
     canvas.drawPath(activeLinePath, activeLinePaint);

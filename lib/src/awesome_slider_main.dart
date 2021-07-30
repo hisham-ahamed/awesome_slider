@@ -5,9 +5,9 @@ import 'awesome_slider_painter.dart';
 
 class AwesomeSlider extends StatefulWidget {
   AwesomeSlider({
-    this.value,
-    this.min,
-    this.max,
+    required this.value,
+    required this.min,
+    required this.max,
     this.onChanged,
     this.child,
     this.sliderWidth,
@@ -46,18 +46,18 @@ class AwesomeSlider extends StatefulWidget {
   final double max;
 
   /// Called when the user starts selecting a new value for the slider.
-  final ValueChanged<double> onChanged;
+  final ValueChanged<double>? onChanged;
 
   /// Provide a child Widget to the Slider Thumb
-  final Widget child;
+  final Widget? child;
 
   /// Total Width of the Slider.
   /// Default width will be the Canvas Width with a difference of 40px
-  final double sliderWidth;
+  final double? sliderWidth;
 
   /// Size of the thumb
   /// Default value will be a 90px ratio of the original Canvas
-  final double thumbSize;
+  final double? thumbSize;
 
   ///Colour of the thumb
   ///Default colour is grey Colour
@@ -74,7 +74,7 @@ class AwesomeSlider extends StatefulWidget {
   ///The stroke value for the inactive portion of the slider track.
   ///Default stroke value is 4.0
   ///Value for inactiveLineStroke = activeLineStroke unless given different values for both
-  final double inactiveLineStroke;
+  final double? inactiveLineStroke;
 
   ///The color for the active portion of the slider track.
   ///Default colour is Blue Colour
@@ -83,7 +83,7 @@ class AwesomeSlider extends StatefulWidget {
   ///The stroke value for the active portion of the slider track.
   ///Default stroke value is 4.0
   ///Value for activeLineStroke = inactiveLineStroke unless given different values for both
-  final double activeLineStroke;
+  final double? activeLineStroke;
 
   ///Give true value if a Shadow required on Top - Left of the thumb
   final bool topLeftShadow;
@@ -94,7 +94,7 @@ class AwesomeSlider extends StatefulWidget {
 
   ///MaskFilter blur value for shadow of Top - Left of the thumb
   ///MaskFilter.blur(BlurStyle.normal, 3.0)
-  final MaskFilter topLeftShadowBlur;
+  final MaskFilter? topLeftShadowBlur;
 
   ///Give true value if a Shadow required on Bottom - Right of the thumb
   final bool bottomRightShadow;
@@ -105,7 +105,7 @@ class AwesomeSlider extends StatefulWidget {
 
   ///MaskFilter blur value for shadow of Top - Left of the thumb
   ///MaskFilter.blur(BlurStyle.normal, 3.0)
-  final MaskFilter bottomRightShadowBlur;
+  final MaskFilter? bottomRightShadowBlur;
 
   @override
   _AwesomeSliderState createState() => _AwesomeSliderState();
@@ -114,19 +114,19 @@ class AwesomeSlider extends StatefulWidget {
 class _AwesomeSliderState extends State<AwesomeSlider> {
   double sliderXCoordinatePositionNow = 0.0;
 
-  double _strokeOfInactiveLine() => (widget.inactiveLineStroke == null)
+  double? _strokeOfInactiveLine() => (widget.inactiveLineStroke == null)
       ? (widget.activeLineStroke == null) ? 4.0 : widget.activeLineStroke
       : widget.inactiveLineStroke;
 
-  double _strokeOfActiveLine() => (widget.activeLineStroke == null)
+  double? _strokeOfActiveLine() => (widget.activeLineStroke == null)
       ? (widget.inactiveLineStroke == null) ? 4.0 : widget.inactiveLineStroke
       : widget.activeLineStroke;
 
-  MaskFilter _topLeftShadowBlur() => (widget.topLeftShadowBlur == null)
+  MaskFilter? _topLeftShadowBlur() => (widget.topLeftShadowBlur == null)
       ? MaskFilter.blur(BlurStyle.normal, 3.0)
       : widget.topLeftShadowBlur;
 
-  MaskFilter _bottomRightShadowBlur() => (widget.bottomRightShadowBlur == null)
+  MaskFilter? _bottomRightShadowBlur() => (widget.bottomRightShadowBlur == null)
       ? MaskFilter.blur(BlurStyle.normal, 3.0)
       : widget.bottomRightShadowBlur;
 
@@ -140,7 +140,7 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
   double _sliderChildPosition() => _incrementValueForThumb() * _pixelDivision();
 
   double _sliderWidth() {
-    double userInputWidth = widget.sliderWidth;
+    double? userInputWidth = widget.sliderWidth;
     double screenWidth = window.physicalSize.width;
     double pixelRatio = window.devicePixelRatio;
     double sliderWidth = (userInputWidth == null)
@@ -150,7 +150,7 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
   }
 
   double _sliderHeight() {
-    double userInputHeight = widget.thumbSize;
+    double? userInputHeight = widget.thumbSize;
     double screenHeight = window.physicalSize.height;
     double pixelRatio = window.devicePixelRatio;
     double multiplicationFactor = (90 / 805.3333334);
@@ -193,7 +193,7 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
         : incrementValue;
     double userValue = value + widget.min;
     if (widget.onChanged != null) {
-      widget.onChanged(userValue);
+      widget.onChanged!(userValue);
     }
   }
 
