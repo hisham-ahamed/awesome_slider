@@ -66,15 +66,16 @@ class AwesomeSliderPaint extends CustomPainter {
     canvas.drawPath(inactiveLinePath, inactiveLinePaint);
 
     ///    Active Line Paint
-
-    Path activeLinePath = Path();
-    Paint activeLinePaint = Paint()
-      ..color = activeLineColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = activeLineStroke!;
-    activeLinePath.moveTo(thumbSize / 2, thumbSize / 2);
-    activeLinePath.lineTo(currentTouchPosition - thumbSize / 2, thumbSize / 2);
-    canvas.drawPath(activeLinePath, activeLinePaint);
+    if (currentTouchPosition > thumbSize / 2) {
+      Path activeLinePath = Path();
+      Paint activeLinePaint = Paint()
+        ..color = activeLineColor
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = activeLineStroke!;
+      activeLinePath.moveTo(thumbSize / 2, thumbSize / 2);
+      activeLinePath.lineTo(currentTouchPosition - thumbSize / 2, thumbSize / 2);
+      canvas.drawPath(activeLinePath, activeLinePaint);
+    }
 
     ///    Rounded Rectangle Top Left Shadow Paint
 
@@ -89,9 +90,7 @@ class AwesomeSliderPaint extends CustomPainter {
         thumbSize - roundedRectangleTopLeftShadowShift + _increment(),
         thumbSize - roundedRectangleTopLeftShadowShift,
         Radius.circular(roundedThumbRadius)));
-    if (topLeftShadow == true)
-      canvas.drawPath(
-          roundedRectangleTopLeftShadow, roundedRectangleTopLeftShadowPaint);
+    if (topLeftShadow == true) canvas.drawPath(roundedRectangleTopLeftShadow, roundedRectangleTopLeftShadowPaint);
 
     ///    Rounded Rectangle Bottom Right Shadow Paint
 
@@ -106,8 +105,7 @@ class AwesomeSliderPaint extends CustomPainter {
         thumbSize + roundedRectangleBottomRightShadowShift,
         Radius.circular(roundedThumbRadius)));
     if (bottomRightShadow == true)
-      canvas.drawPath(roundedRectangleBottomRightShadow,
-          roundedRectangleBottomRightShadowPaint);
+      canvas.drawPath(roundedRectangleBottomRightShadow, roundedRectangleBottomRightShadowPaint);
 
     ///   Rounded Rectangle Thumb Paint
 
@@ -115,11 +113,7 @@ class AwesomeSliderPaint extends CustomPainter {
     Paint roundedRectanglePaint = Paint()..color = thumbColor;
 
     roundedRectangle.addRRect(RRect.fromLTRBR(
-        0.0 + _increment(),
-        0.0,
-        thumbSize + _increment(),
-        thumbSize,
-        Radius.circular(roundedThumbRadius)));
+        0.0 + _increment(), 0.0, thumbSize + _increment(), thumbSize, Radius.circular(roundedThumbRadius)));
     canvas.drawPath(roundedRectangle, roundedRectanglePaint);
   }
 
