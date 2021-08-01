@@ -72,8 +72,8 @@ class AwesomeSliderPaint extends CustomPainter {
       ..color = activeLineColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = activeLineStroke!;
-    activeLinePath.moveTo(0.0, thumbSize / 2);
-    activeLinePath.lineTo(currentTouchPosition, thumbSize / 2);
+    activeLinePath.moveTo(thumbSize / 2, thumbSize / 2);
+    activeLinePath.lineTo(currentTouchPosition - thumbSize / 2, thumbSize / 2);
     canvas.drawPath(activeLinePath, activeLinePaint);
 
     ///    Rounded Rectangle Top Left Shadow Paint
