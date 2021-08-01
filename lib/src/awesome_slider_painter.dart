@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -60,8 +61,8 @@ class AwesomeSliderPaint extends CustomPainter {
       ..color = inactiveLineColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = inactiveLineStroke!;
-    inactiveLinePath.moveTo(0.0, thumbSize / 2);
-    inactiveLinePath.lineTo(sliderLength, thumbSize / 2);
+    inactiveLinePath.moveTo(thumbSize / 2, thumbSize / 2);
+    inactiveLinePath.lineTo(sliderLength - thumbSize / 2, thumbSize / 2);
     canvas.drawPath(inactiveLinePath, inactiveLinePaint);
 
     ///    Active Line Paint
