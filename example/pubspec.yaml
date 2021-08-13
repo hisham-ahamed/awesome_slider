@@ -1,6 +1,8 @@
 name: awesomesliderexample
 description: An Example for AwesomeSlider
 
+publish_to: none
+
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
 # followed by an optional build number separated by a +.
@@ -21,7 +23,9 @@ dependencies:
     sdk: flutter
 
   awesome_slider:
-    path: /media/hisham/DATA/(C)Files/Workspaces/Flutter/awesome_slider/
+    git: 
+      url: https://github.com/Babiosik/awesome_slider.git
+      ref: migrate
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

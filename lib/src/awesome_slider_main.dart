@@ -1,17 +1,19 @@
-import 'package:flutter/cupertino.dart';
 import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'awesome_slider_painter.dart';
 
 class AwesomeSlider extends StatefulWidget {
   AwesomeSlider({
-    this.value,
-    this.min,
-    this.max,
+    required this.value,
+    required this.min,
+    required this.max,
     this.onChanged,
     this.child,
     this.sliderWidth,
-    this.thumbSize,
+    this.thumbSize = 20,
     this.thumbColor = Colors.grey,
     this.roundedRectangleThumbRadius = 0.0,
     this.inactiveLineColor = Colors.blue,
@@ -24,10 +26,10 @@ class AwesomeSlider extends StatefulWidget {
     this.bottomRightShadow = false,
     this.bottomRightShadowColor = Colors.blueGrey,
     this.bottomRightShadowBlur,
-  })  : assert(value != null),
-        assert(min != null),
-        assert(max != null),
-        assert(min <= max),
+    this.minMaxEnable = false,
+    this.minMaxOffset = 4,
+    this.minMaxStyle,
+  })  : assert(min <= max),
         assert(value >= min && value <= max);
 
   /// Value of the Slider Position
@@ -46,14 +48,14 @@ class AwesomeSlider extends StatefulWidget {
   final double max;
 
   /// Called when the user starts selecting a new value for the slider.
-  final ValueChanged<double> onChanged;
+  final ValueChanged<double>? onChanged;
 
   /// Provide a child Widget to the Slider Thumb
-  final Widget child;
+  final Widget? child;
 
   /// Total Width of the Slider.
   /// Default width will be the Canvas Width with a difference of 40px
-  final double sliderWidth;
+  final double? sliderWidth;
 
   /// Size of the thumb
   /// Default value will be a 90px ratio of the original Canvas
@@ -74,7 +76,7 @@ class AwesomeSlider extends StatefulWidget {
   ///The stroke value for the inactive portion of the slider track.
   ///Default stroke value is 4.0
   ///Value for inactiveLineStroke = activeLineStroke unless given different values for both
-  final double inactiveLineStroke;
+  final double? inactiveLineStroke;
 
   ///The color for the active portion of the slider track.
   ///Default colour is Blue Colour
@@ -83,10 +85,14 @@ class AwesomeSlider extends StatefulWidget {
   ///The stroke value for the active portion of the slider track.
   ///Default stroke value is 4.0
   ///Value for activeLineStroke = inactiveLineStroke unless given different values for both
-  final double activeLineStroke;
+  final double? activeLineStroke;
 
   ///Give true value if a Shadow required on Top - Left of the thumb
   final bool topLeftShadow;
+
+  final bool minMaxEnable;
+  final double minMaxOffset;
+  final TextStyle? minMaxStyle;
 
   ///Colour of shadow of Top - Left of the thumb
   ///Default is Blue - Grey
@@ -94,7 +100,7 @@ class AwesomeSlider extends StatefulWidget {
 
   ///MaskFilter blur value for shadow of Top - Left of the thumb
   ///MaskFilter.blur(BlurStyle.normal, 3.0)
-  final MaskFilter topLeftShadowBlur;
+  final MaskFilter? topLeftShadowBlur;
 
   ///Give true value if a Shadow required on Bottom - Right of the thumb
   final bool bottomRightShadow;
@@ -105,7 +111,7 @@ class AwesomeSlider extends StatefulWidget {
 
   ///MaskFilter blur value for shadow of Top - Left of the thumb
   ///MaskFilter.blur(BlurStyle.normal, 3.0)
-  final MaskFilter bottomRightShadowBlur;
+  final MaskFilter? bottomRightShadowBlur;
 
   @override
   _AwesomeSliderState createState() => _AwesomeSliderState();
@@ -114,24 +120,25 @@ class AwesomeSlider extends StatefulWidget {
 class _AwesomeSliderState extends State<AwesomeSlider> {
   double sliderXCoordinatePositionNow = 0.0;
 
-  double _strokeOfInactiveLine() => (widget.inactiveLineStroke == null)
-      ? (widget.activeLineStroke == null) ? 4.0 : widget.activeLineStroke
+  double? _strokeOfInactiveLine() => (widget.inactiveLineStroke == null)
+      ? (widget.activeLineStroke == null)
+          ? 4.0
+          : widget.activeLineStroke
       : widget.inactiveLineStroke;
 
-  double _strokeOfActiveLine() => (widget.activeLineStroke == null)
-      ? (widget.inactiveLineStroke == null) ? 4.0 : widget.inactiveLineStroke
+  double? _strokeOfActiveLine() => (widget.activeLineStroke == null)
+      ? (widget.inactiveLineStroke == null)
+          ? 4.0
+          : widget.inactiveLineStroke
       : widget.activeLineStroke;
 
-  MaskFilter _topLeftShadowBlur() => (widget.topLeftShadowBlur == null)
-      ? MaskFilter.blur(BlurStyle.normal, 3.0)
-      : widget.topLeftShadowBlur;
+  MaskFilter? _topLeftShadowBlur() =>
+      (widget.topLeftShadowBlur == null) ? MaskFilter.blur(BlurStyle.normal, 3.0) : widget.topLeftShadowBlur;
 
-  MaskFilter _bottomRightShadowBlur() => (widget.bottomRightShadowBlur == null)
-      ? MaskFilter.blur(BlurStyle.normal, 3.0)
-      : widget.bottomRightShadowBlur;
+  MaskFilter? _bottomRightShadowBlur() =>
+      (widget.bottomRightShadowBlur == null) ? MaskFilter.blur(BlurStyle.normal, 3.0) : widget.bottomRightShadowBlur;
 
-  double _incrementValueForThumb() =>
-      (widget.value == 0.0) ? widget.min : widget.value - widget.min;
+  double _incrementValueForThumb() => (widget.value == 0.0) ? widget.min : widget.value - widget.min;
 
   double _lineLengthForPixel() => _sliderWidth() - _sliderHeight();
   double _userValueForPixel() => widget.max - widget.min;
@@ -140,23 +147,20 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
   double _sliderChildPosition() => _incrementValueForThumb() * _pixelDivision();
 
   double _sliderWidth() {
-    double userInputWidth = widget.sliderWidth;
+    double? userInputWidth = widget.sliderWidth;
     double screenWidth = window.physicalSize.width;
     double pixelRatio = window.devicePixelRatio;
-    double sliderWidth = (userInputWidth == null)
-        ? ((screenWidth / pixelRatio) - 40.0)
-        : userInputWidth;
+    double sliderWidth = (userInputWidth == null) ? ((screenWidth / pixelRatio) - 40.0) : userInputWidth;
     return sliderWidth;
   }
 
   double _sliderHeight() {
-    double userInputHeight = widget.thumbSize;
+    double? userInputHeight = widget.thumbSize;
     double screenHeight = window.physicalSize.height;
     double pixelRatio = window.devicePixelRatio;
     double multiplicationFactor = (90 / 805.3333334);
-    double sliderHeight = (userInputHeight == null)
-        ? ((screenHeight / pixelRatio) * multiplicationFactor)
-        : userInputHeight;
+    double sliderHeight =
+        (userInputHeight == null) ? ((screenHeight / pixelRatio) * multiplicationFactor) : userInputHeight;
     return sliderHeight.roundToDouble();
   }
 
@@ -188,70 +192,92 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
 
   void _value() {
     double incrementValue = sliderXCoordinatePositionNow / _pixelDivision();
-    double value = (incrementValue > _userValueForPixel())
-        ? _userValueForPixel()
-        : incrementValue;
+    double value = (incrementValue > _userValueForPixel()) ? _userValueForPixel() : incrementValue;
     double userValue = value + widget.min;
     if (widget.onChanged != null) {
-      widget.onChanged(userValue);
+      widget.onChanged!(userValue);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onHorizontalDragUpdate: (DragUpdateDetails updateDetails) {
-        _onDragUpdate(updateDetails);
-        _value();
-      },
-      onHorizontalDragStart: (DragStartDetails startDetails) {
-        _onDragStart(startDetails);
-        _value();
-      },
-      child: Container(
-        padding: EdgeInsets.all(20.0),
-        child: Stack(
-          children: <Widget>[
-            Container(
-              height: _sliderHeight(),
-              width: _sliderWidth(),
-              child: CustomPaint(
-                painter: AwesomeSliderPaint(
-                  sliderLength: _sliderWidth(),
-                  thumbSize: _sliderHeight(),
-                  thumbColor: widget.thumbColor,
-                  value: _incrementValueForThumb(),
-                  min: widget.min,
-                  max: widget.max,
-                  inactiveLineColor: widget.inactiveLineColor,
-                  inactiveLineStroke: _strokeOfInactiveLine(),
-                  activeLineColor: widget.activeLineColor,
-                  activeLineStroke: _strokeOfActiveLine(),
-                  currentTouchPosition: sliderXCoordinatePositionNow,
-                  roundedThumbRadius: widget.roundedRectangleThumbRadius,
-                  topLeftShadowColor: widget.topLeftShadowColor,
-                  bottomRightShadowColor: widget.bottomRightShadowColor,
-                  topLeftShadowBlurFactor: _topLeftShadowBlur(),
-                  bottomRightShadowBlurFactor: _bottomRightShadowBlur(),
-                  bottomRightShadow: widget.bottomRightShadow,
-                  topLeftShadow: widget.topLeftShadow,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onHorizontalDragUpdate: (DragUpdateDetails updateDetails) {
+            _onDragUpdate(updateDetails);
+            _value();
+          },
+          onHorizontalDragStart: (DragStartDetails startDetails) {
+            _onDragStart(startDetails);
+            _value();
+          },
+          child: Container(
+            height: _sliderHeight(),
+            width: _sliderWidth(),
+            child: Stack(
+              children: [
+                CustomPaint(
+                  painter: AwesomeSliderPaint(
+                    sliderLength: _sliderWidth(),
+                    thumbSize: _sliderHeight(),
+                    thumbColor: widget.thumbColor,
+                    value: _incrementValueForThumb(),
+                    min: widget.min,
+                    max: widget.max,
+                    inactiveLineColor: widget.inactiveLineColor,
+                    inactiveLineStroke: _strokeOfInactiveLine(),
+                    activeLineColor: widget.activeLineColor,
+                    activeLineStroke: _strokeOfActiveLine(),
+                    currentTouchPosition: sliderXCoordinatePositionNow,
+                    roundedThumbRadius: widget.roundedRectangleThumbRadius,
+                    topLeftShadowColor: widget.topLeftShadowColor,
+                    bottomRightShadowColor: widget.bottomRightShadowColor,
+                    topLeftShadowBlurFactor: _topLeftShadowBlur(),
+                    bottomRightShadowBlurFactor: _bottomRightShadowBlur(),
+                    bottomRightShadow: widget.bottomRightShadow,
+                    topLeftShadow: widget.topLeftShadow,
+                  ),
                 ),
-              ),
+                Positioned(
+                  height: _sliderHeight(),
+                  width: _sliderHeight(),
+                  left: _sliderChildPosition(),
+                  child: Container(child: widget.child),
+                ),
+              ],
             ),
-            Positioned(
-              height: _sliderHeight(),
-              width: _sliderHeight(),
-              left: _sliderChildPosition(),
-              child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                child: widget.child,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        if (widget.minMaxEnable)
+          Container(
+            margin: EdgeInsets.only(top: widget.minMaxOffset),
+            width: _sliderWidth(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: widget.thumbSize,
+                  child: Text(
+                    widget.min.toInt().toString(),
+                    textAlign: TextAlign.center,
+                    style: widget.minMaxStyle,
+                  ),
+                ),
+                SizedBox(
+                  width: widget.thumbSize,
+                  child: Text(
+                    widget.max.toInt().toString(),
+                    textAlign: TextAlign.center,
+                    style: widget.minMaxStyle,
+                  ),
+                ),
+              ],
+            ),
+          ),
+      ],
     );
   }
 }

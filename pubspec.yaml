@@ -1,11 +1,13 @@
 name: awesome_slider
 description: A highly customisable Rounded Rectangular thumb shaped slider for flutter projects which has shadow and child property.
-version: 0.1.0
+version: 0.2.2
 author: Hisham Ahamed <aahisham20@gmail.com>
 homepage: https://github.com/hisham-ahamed/awesome_slider
 
+publish_to: none
+
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
