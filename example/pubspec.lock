@@ -12,11 +12,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: "1ff6518096d91da3295579a2d812343992e66fef"
+      ref: migrate
+      resolved-ref: a52e9358492d479ee7bf66b4d03a7ba91a005be3
       url: "https://github.com/Babiosik/awesome_slider.git"
     source: git
-    version: "0.1.0"
+    version: "0.2.2"
   boolean_selector:
     dependency: transitive
     description:

@@ -23,7 +23,9 @@ dependencies:
     sdk: flutter
 
   awesome_slider:
-    git: https://github.com/Babiosik/awesome_slider.git
+    git: 
+      url: https://github.com/Babiosik/awesome_slider.git
+      ref: migrate
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
