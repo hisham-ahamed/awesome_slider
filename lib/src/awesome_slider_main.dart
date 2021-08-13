@@ -26,7 +26,9 @@ class AwesomeSlider extends StatefulWidget {
     this.bottomRightShadow = false,
     this.bottomRightShadowColor = Colors.blueGrey,
     this.bottomRightShadowBlur,
-    this.showMinMax = false,
+    this.minMaxEnable = false,
+    this.minMaxOffset = 4,
+    this.minMaxStyle,
   })  : assert(min <= max),
         assert(value >= min && value <= max);
 
@@ -87,7 +89,10 @@ class AwesomeSlider extends StatefulWidget {
 
   ///Give true value if a Shadow required on Top - Left of the thumb
   final bool topLeftShadow;
-  final bool showMinMax;
+
+  final bool minMaxEnable;
+  final double minMaxOffset;
+  final TextStyle? minMaxStyle;
 
   ///Colour of shadow of Top - Left of the thumb
   ///Default is Blue - Grey
@@ -196,75 +201,83 @@ class _AwesomeSliderState extends State<AwesomeSlider> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onHorizontalDragUpdate: (DragUpdateDetails updateDetails) {
-        _onDragUpdate(updateDetails);
-        _value();
-      },
-      onHorizontalDragStart: (DragStartDetails startDetails) {
-        _onDragStart(startDetails);
-        _value();
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: EdgeInsets.all(20.0),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onHorizontalDragUpdate: (DragUpdateDetails updateDetails) {
+            _onDragUpdate(updateDetails);
+            _value();
+          },
+          onHorizontalDragStart: (DragStartDetails startDetails) {
+            _onDragStart(startDetails);
+            _value();
+          },
+          child: Container(
+            height: _sliderHeight(),
+            width: _sliderWidth(),
             child: Stack(
-              children: <Widget>[
-                Container(
-                  height: _sliderHeight(),
-                  width: _sliderWidth(),
-                  child: CustomPaint(
-                    painter: AwesomeSliderPaint(
-                      sliderLength: _sliderWidth(),
-                      thumbSize: _sliderHeight(),
-                      thumbColor: widget.thumbColor,
-                      value: _incrementValueForThumb(),
-                      min: widget.min,
-                      max: widget.max,
-                      inactiveLineColor: widget.inactiveLineColor,
-                      inactiveLineStroke: _strokeOfInactiveLine(),
-                      activeLineColor: widget.activeLineColor,
-                      activeLineStroke: _strokeOfActiveLine(),
-                      currentTouchPosition: sliderXCoordinatePositionNow,
-                      roundedThumbRadius: widget.roundedRectangleThumbRadius,
-                      topLeftShadowColor: widget.topLeftShadowColor,
-                      bottomRightShadowColor: widget.bottomRightShadowColor,
-                      topLeftShadowBlurFactor: _topLeftShadowBlur(),
-                      bottomRightShadowBlurFactor: _bottomRightShadowBlur(),
-                      bottomRightShadow: widget.bottomRightShadow,
-                      topLeftShadow: widget.topLeftShadow,
-                    ),
+              children: [
+                CustomPaint(
+                  painter: AwesomeSliderPaint(
+                    sliderLength: _sliderWidth(),
+                    thumbSize: _sliderHeight(),
+                    thumbColor: widget.thumbColor,
+                    value: _incrementValueForThumb(),
+                    min: widget.min,
+                    max: widget.max,
+                    inactiveLineColor: widget.inactiveLineColor,
+                    inactiveLineStroke: _strokeOfInactiveLine(),
+                    activeLineColor: widget.activeLineColor,
+                    activeLineStroke: _strokeOfActiveLine(),
+                    currentTouchPosition: sliderXCoordinatePositionNow,
+                    roundedThumbRadius: widget.roundedRectangleThumbRadius,
+                    topLeftShadowColor: widget.topLeftShadowColor,
+                    bottomRightShadowColor: widget.bottomRightShadowColor,
+                    topLeftShadowBlurFactor: _topLeftShadowBlur(),
+                    bottomRightShadowBlurFactor: _bottomRightShadowBlur(),
+                    bottomRightShadow: widget.bottomRightShadow,
+                    topLeftShadow: widget.topLeftShadow,
                   ),
                 ),
                 Positioned(
                   height: _sliderHeight(),
                   width: _sliderHeight(),
                   left: _sliderChildPosition(),
-                  child: Container(
-                    height: double.infinity,
-                    width: double.infinity,
-                    child: widget.child,
+                  child: Container(child: widget.child),
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (widget.minMaxEnable)
+          Container(
+            margin: EdgeInsets.only(top: widget.minMaxOffset),
+            width: _sliderWidth(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SizedBox(
+                  width: widget.thumbSize,
+                  child: Text(
+                    widget.min.toInt().toString(),
+                    textAlign: TextAlign.center,
+                    style: widget.minMaxStyle,
+                  ),
+                ),
+                SizedBox(
+                  width: widget.thumbSize,
+                  child: Text(
+                    widget.max.toInt().toString(),
+                    textAlign: TextAlign.center,
+                    style: widget.minMaxStyle,
                   ),
                 ),
               ],
             ),
           ),
-          if (widget.showMinMax)
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: widget.thumbSize / 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(widget.min.toString()),
-                  Text(widget.max.toString()),
-                ],
-              ),
-            ),
-        ],
-      ),
+      ],
     );
   }
 }

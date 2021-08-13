@@ -66,7 +66,7 @@ class AwesomeSliderPaint extends CustomPainter {
     canvas.drawPath(inactiveLinePath, inactiveLinePaint);
 
     ///    Active Line Paint
-    if (currentTouchPosition > thumbSize / 2) {
+    if (currentTouchPosition > thumbSize) {
       Path activeLinePath = Path();
       Paint activeLinePaint = Paint()
         ..color = activeLineColor

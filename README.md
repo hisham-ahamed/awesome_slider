@@ -1,4 +1,4 @@
-# Awesome - Slider
+# Awesome - Slider Nullsafety
 
 MIGRATED TO NULL SAFETY
 
@@ -20,7 +20,10 @@ A highly customisable Rounded Rectangular thumb shaped slider for flutter projec
 Add
 
 ```bash
-awesome_slider : ^0.1.0
+awesome_slider:
+  git: 
+    url: https://github.com/Babiosik/awesome_slider.git
+    ref: migrate
 ```
 to your pubspec.yaml, and run
 
